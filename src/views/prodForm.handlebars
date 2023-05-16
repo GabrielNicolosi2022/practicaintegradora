@@ -1,0 +1,129 @@
+{{! Create Product }}
+<div class='container mt-5'>
+  <div class='row justify-content-center'>
+    <div class='col-md-6'>
+      <h1 class='text-center mb-2'>CRUD PRODUCTS (ABM)</h1>
+      <h3 class='text-center mb-4' id='actionFormHeader'>{{action_form}}</h3>
+      <form
+        action='/mensages'
+        method='{{method}}'
+        id='prodForm'
+        enctype='multipart/form-data'
+      >
+        {{! Check-boxs }}
+        {{! POST }}
+        <h4>Elija operación</h4>
+        <div class='form-check form-check-inline'>
+          <input
+            class='form-check-input'
+            type='radio'
+            name='inlineRadioOptions'
+            id='postCheckbox'
+            value='POST'
+            {{!-- checked --}}
+          />
+          <label class='form-check-label' for='cr_Checkbox'>Alta</label>
+        </div>
+        {{! PUT }}
+        <div class='form-check form-check-inline'>
+          <input
+            class='form-check-input'
+            type='radio'
+            name='inlineRadioOptions'
+            id='putCheckbox'
+            value='PUT'
+          />
+          <label class='form-check-label' for='up_Checkbox'>Modificación</label>
+        </div>
+        {{! DELETE }}
+        <div class='form-check form-check-inline'>
+          <input
+            class='form-check-input'
+            type='radio'
+            name='inlineRadioOptions'
+            id='deleteCheckbox'
+            value='DELETE'
+          />
+          <label class='form-check-label' for='de_Checkbox'>Baja</label>
+        </div>
+        {{! Form }}
+        {{! Id }}
+        {{!-- {{id}} --}}
+        <div class='form-group' id='field-id'>
+          <label for='id'>Id</label>
+          <input type='text' class='form-control' id='id' name='id' />
+        </div>
+        {{! Title }}
+        <div class='form-group' id='field-title'>
+          <label for='title'>Title</label>
+          <input type='text' class='form-control' id='title' name='title' />
+        </div>
+        {{! Description }}
+        <div class='form-group' id='field-description'>
+          <label for='description'>Description</label>
+          <input
+            type='text'
+            class='form-control'
+            id='description'
+            name='description'
+          />
+        </div>
+        {{! Code }}
+        <div class='form-group' id='field-code'>
+          <label for='code'>Code</label>
+          <input type='text' class='form-control' id='code' name='code' />
+        </div>
+        {{! Price }}
+        <div class='form-group' id='field-price'>
+          <label for='price'>Price</label>
+          <input type='number' class='form-control' id='price' name='price' />
+        </div>
+        {{! Status }}
+        <div class='form-group mt-2 mb-2' id='field-status'>
+          <label for='status'>Status</label>
+          <select name='status' id='status'>
+            <option value='true'>True</option>
+            <option value='false'>False</option>
+          </select>
+        </div>
+        {{! Stock }}
+        <div class='form-group' id='field-stock'>
+          <label for='stock'>Stock</label>
+          <input
+            type='number'
+            class='form-control'
+            id='stock'
+            name='stock'
+            min='0'
+            step='1'
+          />
+        </div>
+        {{! Category }}
+        <div class='form-group' id='field-category'>
+          <label for='category'>Category</label>
+          <input
+            type='text'
+            class='form-control'
+            id='category'
+            name='category'
+          />
+        </div>
+        {{! Thumbnails }}
+        <div class='form-group' id='field-thumbnail'>
+          <label for='thumbnail'>Images</label>
+          <input type='file' id='thumbnail' name='thumbnail' multiple />
+        </div>
+        {{! Button }}
+        <button
+          type='submit'
+          class='btn btn-primary btn-block mt-4 float-end w-50'
+        >
+          Send
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<script src='js/prodForm.js'></script>
