@@ -3,13 +3,15 @@ import { Router } from "express";
 const router = Router();
 
 // rutas handlebars
-router.get('/abmprod', (req, res) => {
+
+
+router.get('/', (req, res) => {
   res.render('prodForm', {
     title: 'ABM de Productos',
   });
 })
 
-router.post('/mensages', (req, res) => {
+router.put('/response', (req, res) => {
   res.render('newProdData');
 })
 

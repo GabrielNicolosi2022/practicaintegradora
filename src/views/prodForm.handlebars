@@ -5,14 +5,25 @@
       <h1 class='text-center mb-2'>CRUD PRODUCTS (ABM)</h1>
       <h3 class='text-center mb-4' id='actionFormHeader'>{{action_form}}</h3>
       <form
-        action='/mensages'
+        action='/response'
         method='{{method}}'
         id='prodForm'
         enctype='multipart/form-data'
       >
         {{! Check-boxs }}
+        <h4 id='chosen'>Elija operación</h4>
+        {{! GET }}
+        <div class='form-check form-check-inline'>
+          <input
+            class='form-check-input'
+            type='radio'
+            name='inlineRadioOptions'
+            id='getCheckbox'
+            value='GET'
+          />
+          <label class='form-check-label' for='cr_Checkbox'>Listado</label>
+        </div>
         {{! POST }}
-        <h4>Elija operación</h4>
         <div class='form-check form-check-inline'>
           <input
             class='form-check-input'
@@ -20,7 +31,6 @@
             name='inlineRadioOptions'
             id='postCheckbox'
             value='POST'
-            {{!-- checked --}}
           />
           <label class='form-check-label' for='cr_Checkbox'>Alta</label>
         </div>
@@ -126,4 +136,5 @@
 </div>
 
 <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-<script src='js/prodForm.js'></script>
+<script src='js/typeForm.js'></script>
+<script src='js/sendForm.js'></script>

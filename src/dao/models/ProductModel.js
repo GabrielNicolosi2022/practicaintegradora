@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import db from './dbConnection.js';
+
 const collection = 'products';
 
 const schema = new mongoose.Schema({
@@ -19,6 +21,8 @@ const schema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
+    min: 0.0,
+    max: Number.MAX_VALUE,
   },
   status: {
     type: Boolean,
@@ -34,9 +38,9 @@ const schema = new mongoose.Schema({
   },
   thumbnails: {
     type: [String],
-    required: true,
+    required: false,
   },
 });
 
-const productsModel = mongoose.model(collection, schema);
+const productsModel = db.model(collection, schema);
 export default productsModel;

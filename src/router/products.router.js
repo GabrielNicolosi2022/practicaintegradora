@@ -1,8 +1,16 @@
 import Router from 'express';
+
 import { v4 } from 'uuid';
-import ProductManager from '../productManager.js';
+
+// import ProductManager from '../dao/productManager.js';
+
+import ProductManager from '../dao/productManagerDB.js';
+
+
+import { uploader } from '../utils.js';
 
 const router = Router();
+
 const productManager = new ProductManager();
 
 // Obtener todos los productos
@@ -46,7 +54,7 @@ router.get('/:pid', async (req, res) => {
 });
 
 // Agregar un nuevo producto
-router.post('/', async (req, res) => {
+router.post('/',uploader.array('thumbnails', 5), async (req, res) => {
   try {
     const {
       title,

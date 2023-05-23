@@ -1,5 +1,10 @@
+/* 
+Script para poder cambiar el formato de ingreso de datos con un mismo formulario
+*/
+
 // Obtener referencia al formulario y los checkboxes
 const form = document.getElementById('prodForm');
+const getCheckbox = document.getElementById('getCheckbox');
 const postCheckbox = document.getElementById('postCheckbox');
 const putCheckbox = document.getElementById('putCheckbox');
 const deleteCheckbox = document.getElementById('deleteCheckbox');
@@ -54,10 +59,30 @@ function showFields() {
 }
 
 // Agregar eventos para detectar cambios en los checkboxes
+getCheckbox.addEventListener('change', function () {
+  if (getCheckbox.checked) {
+    form.method = 'GET';
+    actionFormHeader.textContent = 'Listar Producto/s';
+    chosen.hidden = true;
+    showIdField();
+    hideFields();
+    // Obtener todos los elementos de formulario dentro del formulario
+    const formElements = form.elements;
+    // Iterar sobre los elementos y quitar la propiedad 'required'
+    for (let i = 0; i < formElements.length; i++) {
+      const element = formElements[i];
+      if (element.id === 'id') {
+        element.removeAttribute('required');
+      }
+    }
+  }
+});
+
 postCheckbox.addEventListener('change', function () {
   if (postCheckbox.checked) {
     form.method = 'POST';
     actionFormHeader.textContent = 'Agregar Producto';
+    chosen.hidden = true;
     hideIdField();
     showFields();
     // Obtener todos los elementos de formulario dentro del formulario
@@ -80,6 +105,7 @@ putCheckbox.addEventListener('change', function () {
   if (putCheckbox.checked) {
     form.method = 'PUT';
     actionFormHeader.textContent = 'Modificar Producto';
+    chosen.hidden = true;
     showIdField();
     showFields();
     // Obtener todos los elementos de formulario dentro del formulario
@@ -90,7 +116,7 @@ putCheckbox.addEventListener('change', function () {
       if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
         element.removeAttribute('required');
         if (element.id === 'id') {
-          element.setAttribute('required','required');
+          element.setAttribute('required', 'required');
         }
       }
     }
@@ -101,6 +127,7 @@ deleteCheckbox.addEventListener('change', function () {
   if (deleteCheckbox.checked) {
     form.method = 'DELETE';
     actionFormHeader.textContent = 'Eliminar Producto';
+    chosen.hidden = true;
     showIdField();
     hideFields();
   }

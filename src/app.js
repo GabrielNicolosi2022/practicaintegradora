@@ -1,13 +1,12 @@
 import express, { json, urlencoded } from 'express';
+import { Server } from 'socket.io';
 import __dirname from './utils.js';
-import open from 'open';
+// import open from 'open';
 import morgan from 'morgan';
-import productsRouter from './routes/products.router.js';
-import cartsRouter from './routes/carts.router.js';
-import { uploader } from './utils.js';
+import productsRouter from './router/products.routes.js';
+import cartsRouter from './router/carts.routes.js';
 import { engine } from 'express-handlebars';
-import mongoose from 'mongoose';
-import viewProd from './routes/viewsProd.router.js';
+import viewProd from './router/viewProd.router.js';
 
 /* CONFIGURACIONES */
 
@@ -23,25 +22,31 @@ app.use(morgan('dev'));
 // Open
 // const open = require('open');
 
-// Server
+// Server HTTP
 const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, () => {
+
+const server = app.listen(PORT, (err) => {
+  if (err) {
+    console.log('Connection Error: ', err);
+    return;
+  }
   console.log(`Listen on port ${PORT}`);
   // open('http://localhost:8080/abmprod');
 });
+// Server Socket.io
+const io = new Server(server);
 
 // Handlebars
 app.engine('handlebars', engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
-// Mongoose
-const connection = mongoose.connect(
-  'mongodb+srv://gabianp:PrIntMdb23@ecommerce.hwzuuds.mongodb.net/?retryWrites=true&w=majority'
-);
 app.use('/', viewProd);
-// Router express
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
 
-// MongoDB
+// Router express
+// app.use('/api/products', productsRouter);
+// app.use('/api/carts', cartsRouter);
+app.use('/products', productsRouter);
+app.use('/carts', cartsRouter);
+
+export default app;

@@ -1,6 +1,6 @@
 import { promises } from 'fs';
 import { join } from 'path';
-import __dirname from './utils.js';
+import __dirname from '../utils.js';
 
 class ProductManager {
   constructor() {
