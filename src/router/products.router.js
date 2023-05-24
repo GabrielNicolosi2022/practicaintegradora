@@ -2,10 +2,7 @@ import Router from 'express';
 
 import { v4 } from 'uuid';
 
-// import ProductManager from '../dao/productManager.js';
-
-import ProductManager from '../dao/productManagerDB.js';
-
+import ProductManager from '../dao/productManager.js';
 
 import { uploader } from '../utils.js';
 

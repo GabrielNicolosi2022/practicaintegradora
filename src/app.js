@@ -1,14 +1,15 @@
 import express, { json, urlencoded } from 'express';
-import { Server } from 'socket.io';
 import __dirname from './utils.js';
-// import open from 'open';
-import morgan from 'morgan';
+import { Server } from 'socket.io';
+import { engine } from 'express-handlebars';
+import ChatManager from './dao/chatManagerDB.js';
+import chatModel from './dao/models/ChatModel.js';
 import productsRouter from './router/products.routes.js';
 import cartsRouter from './router/carts.routes.js';
-import { engine } from 'express-handlebars';
-import viewProd from './router/viewProd.router.js';
+import chatRouter from './router/chat.routes.js';
+import morgan from 'morgan';
 
-/* CONFIGURACIONES */
+/* CONFIGURATIONS */
 
 // Express
 const app = express();
@@ -19,9 +20,6 @@ app.use(express.static(`${__dirname}/public`));
 // Morgan
 app.use(morgan('dev'));
 
-// Open
-// const open = require('open');
-
 // Server HTTP
 const PORT = process.env.PORT || 8080;
 
@@ -31,22 +29,42 @@ const server = app.listen(PORT, (err) => {
     return;
   }
   console.log(`Listen on port ${PORT}`);
-  // open('http://localhost:8080/abmprod');
 });
 // Server Socket.io
 const io = new Server(server);
+
+io.on('connection', (socket) => {
+  console.log('Socket connected');
+
+  socket.on('message', async (data) => {
+    try {
+      // Persistence in mongoDB
+    const chat = await ChatManager.saveChat(data.user, data.message);
+    const chats = await chatModel.find();
+    io.emit('messageLogs', chats);
+    } catch (error) {
+      console.error('Error handling message:', error);
+    }
+    
+  });
+
+  socket.on('authenticated', (data) => {
+    socket.broadcast.emit('newUserConnected', data);
+  });
+});
 
 // Handlebars
 app.engine('handlebars', engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
-app.use('/', viewProd);
-
 // Router express
-// app.use('/api/products', productsRouter);
-// app.use('/api/carts', cartsRouter);
+// file system
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
+// mongoDB
 app.use('/products', productsRouter);
 app.use('/carts', cartsRouter);
+app.use('/chat', chatRouter);
 
 export default app;
